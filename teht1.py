@@ -30,3 +30,9 @@ for i in range(0,1000):
     sijaintiLista.append(n)
 print(sijaintiLista)
 
+# Listan järjestäminen
+
+lista = [1, 3, 5, 4]
+lista.sort()
+print(lista) #tulostuu [1, 3, 4, 5]
+
