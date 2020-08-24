@@ -36,3 +36,5 @@ lista = [1, 3, 5, 4]
 lista.sort()
 print(lista) #tulostuu [1, 3, 4, 5]
 
+# Pistelista
+
