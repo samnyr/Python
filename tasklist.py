@@ -1,8 +1,12 @@
-
 from tkinter import *
 import os
 import sqlite3
 import tkinter.messagebox
+
+def del_all():
+  screen2.destroy()
+  screen3.destroy()
+
 
 def delete2():
   screen3.destroy()
@@ -16,15 +20,38 @@ def delete4():
 def logout():
     screen7.destroy()
 
-def dashboard(): #tehdään dashboard ikkuna johon lisätään notet,,
+def save():
+  global screen10
+  screen10 = Toplevel(screen)
+  screen10.title("Note saved succesfully!")
+  screen10.geometry("300x250")
+  Label(screen10, text = "Note saved succesfully!").pack()
+  Button(screen10, text = "Back to dashboard", command = del_all).pack()
+
+def create_notes():
+  global raw_filename
+  raw_filename = StringVar()
+  raw_notes = StringVar()
+
+  screen9 = Toplevel(screen)
+  screen9.title("Info")
+  screen9.geometry("300x250")
+  Label(screen9, text = "Please enter a filename for the note below : ").pack()
+  Entry(screen9, textvariable = raw_filename).pack()
+  Label (screen9, text = "Please enter the notes for the file below : ").pack()
+  Entry(screen9, textvariable = raw_notes).pack()
+  Button(screen9, text = "Save", command = save).pack()
+
+
+def dashboard():
     global screen8
     screen8 = Toplevel(screen)
     screen8.title("Dashboard") 
     screen8.geometry("400x400") 
     Label(screen8, text = "Welcome").pack() 
-    Button(screen8, text = "Create a new note").pack()
-    Button(screen8, text = "View note").pack()
-    Button(screen8, text = "Delete note").pack()
+    Button(screen8, text = "Create a new note", width = 20, height = 2, command = create_notes).pack()
+    Button(screen8, text = "View note", width = 20, height = 2).pack()
+    Button(screen8, text = "Delete note", width = 20, height = 2).pack()
   
 def login_success():
   global screen3
@@ -32,7 +59,7 @@ def login_success():
   screen3.title("Success")
   screen3.geometry("150x100")
   Label(screen3, text = "Login Success").pack()
-  Button(screen3, text = "OK", command =delete2).pack()
+  Button(screen3, text = "OK", command =dashboard).pack()
 
 def password_not_recognised():
   global screen4
@@ -152,18 +179,6 @@ def main_screen():
   Button(text = "Login", height = "2", width = "30", command = login).pack()
   Label(text = "").pack()
   Button(text = "Register",height = "2", width = "30", command = register).pack()
-
-  def table():
-    global screen9
-    screen9 = Tk()
-    screen9.title("Table")
-    screen9.geometry("400x400")
-    conn = sqlite3.connect("tasklist.db")
-    c = conn.cursor()
-    c.execute("DROP TABLE IF EXISTS tasks")
-    sql = '''CREATE TABLE tanks (
-        task VARCHAR(255)
-    )'''
 
   screen.mainloop() #pitää sovelluksen yllä
 
