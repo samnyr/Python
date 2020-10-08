@@ -20,17 +20,28 @@ def delete4():
 def logout():
     screen7.destroy()
 
-def save():
-  global screen10
+def saved():
   screen10 = Toplevel(screen)
-  screen10.title("Note saved succesfully!")
-  screen10.geometry("300x250")
-  Label(screen10, text = "Note saved succesfully!").pack()
-  Button(screen10, text = "Back to dashboard", command = del_all).pack()
+  screen10.title("Saved")
+  screen10.geometry("100x100")
+  Label(screen10, text = "Saved").pack()
+
+def save():
+
+  filename = raw_filename.get()
+  notes = raw_notes.get()
+
+  data = open(filename, "w")
+  data.write(notes)
+  data.close()
+
+  saved()
+
 
 def create_notes():
   global raw_filename
   raw_filename = StringVar()
+  global raw_notes
   raw_notes = StringVar()
 
   screen9 = Toplevel(screen)
@@ -42,6 +53,50 @@ def create_notes():
   Entry(screen9, textvariable = raw_notes).pack()
   Button(screen9, text = "Save", command = save).pack()
 
+def view_notes1():
+  filename1 = raw_filename1.get()
+  data = open(filename1, "r")
+  data1 = data.read()
+  screen12 = Toplevel(screen)
+  screen12.title("Notes")
+  screen12.geometry("400x400")
+  Label(screen12, text = data1).pack()
+
+
+def view_notes():
+  global screen11
+  screen11 = Toplevel(screen)
+  screen11.title("Info")
+  screen11.geometry("250x250")
+  all_files = os.listdir()
+  Label(screen11, text = "Please use one of the filenames below").pack()
+  Label(screen11, text = all_files).pack()
+  global raw_filename1
+  raw_filename1 = StringVar()
+  Entry(screen11, textvariable=raw_filename1).pack()
+  Button(screen11, command = view_notes1, text = "OK").pack()
+
+def delete_note1():
+  filename3 = raw_filename2.get()
+  os.remove(filename3)
+  screen14 = Toplevel(screen)
+  screen14.title("Notes")
+  screen14.geometry("400x400")
+  Label(screen14, text = filename3+" removed").pack()
+
+def delete_note():
+  global screen13
+  screen13 = Toplevel(screen)
+  screen13.title("Info")
+  screen13.geometry("250x250")
+  all_files = os.listdir()
+  Label(screen13, text = "Please use one of the filenames below").pack()
+  Label(screen13, text = all_files).pack()
+  global raw_filename2
+  raw_filename2 = StringVar()
+  Entry(screen13, textvariable=raw_filename2).pack()
+  Button(screen13, command = delete_note1, text = "OK").pack()
+
 
 def dashboard():
     global screen8
@@ -50,8 +105,8 @@ def dashboard():
     screen8.geometry("400x400") 
     Label(screen8, text = "Welcome").pack() 
     Button(screen8, text = "Create a new note", width = 20, height = 2, command = create_notes).pack()
-    Button(screen8, text = "View note", width = 20, height = 2).pack()
-    Button(screen8, text = "Delete note", width = 20, height = 2).pack()
+    Button(screen8, text = "View note", width = 20, height = 2, command = view_notes).pack()
+    Button(screen8, text = "Delete note", width = 20, height = 2, command = delete_note).pack()
   
 def login_success():
   global screen3
@@ -180,6 +235,6 @@ def main_screen():
   Label(text = "").pack()
   Button(text = "Register",height = "2", width = "30", command = register).pack()
 
-  screen.mainloop() #pitää sovelluksen yllä
+  screen.mainloop()
 
 main_screen()
